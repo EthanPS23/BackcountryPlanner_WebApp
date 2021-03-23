@@ -41,17 +41,19 @@
     <body style="height:100%;">
 
         <span id="openNav" style="font-size:30px;cursor:pointer" onclick="openNav();openMainCanvas()">&#9776; open</span>
-        
-
         <div id="mainCanvas" class="mainOverlay" onclick="closeMainCanvas();closeNav()"></div>
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav();closeMainCanvas()">&times;</a>
             <div class="mapAreas_SideNav"><span>Map Areas</span></div>
+            <a href='#' id ='toggleAvyCanWeather'>Avy Can Weather Stations</a>
+            <a href='#' id ='toggleACISWeather'>ACIS Weather Stations</a>
+            <a href='#' id ='toggleAvyCanForecasts'>Avalanche Canada Forecasts</a>
+            <a href='#' id ='toggleMINs'>MIN Reports</a>
+            <a href='#' id ='toggleFatalityReports'>Fatality Accident Reports</a>
+            <a href='#' id ='toggleMCRs'>Mountain Condition Reports</a>
             <a href='#' id='delete'>Delete Features</a>
             <a href='#' id='export'>Export Features</a>
         </div>
-
-        
         <script type='text/javascript' src='overlays/sideNav.js'></script>
 
         <div id="mapid"></div>

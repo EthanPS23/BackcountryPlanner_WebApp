@@ -19,3 +19,83 @@ function closeMainCanvas(){
     document.getElementById("mainCanvas").style.width = "0%";
     document.getElementById("mainCanvas").style.opacity = "0";  
 }
+
+// Script that enables and disables viewing of the Avy Can MIN reports
+document.getElementById('toggleMINs').onclick = function(e) {
+    // if MIN reports is toggled then remove the MIN reports cluster layer, else add
+    if (toggleMINReports) {
+        mymap.removeLayer(minReports);
+        document.getElementById("toggleMINs").style.color = '#818181'; 
+    }else{
+        mymap.addLayer(minReports);
+        document.getElementById("toggleMINs").style.color = '#f1f1f1'; 
+    }
+    toggleMINReports = !toggleMINReports; // set the toggleMINReports variable to oppite of current
+}
+
+// Script that enables and disables viewing of the Avy Can Weather Stations
+document.getElementById('toggleAvyCanWeather').onclick = function(e) {
+    // if toggled then remove the cluster layer, else add
+    if (toggleAvyCanWeather) {
+        mymap.removeLayer(avyCanWeather);
+        document.getElementById("toggleAvyCanWeather").style.color = '#818181'; 
+    }else{
+        mymap.addLayer(avyCanWeather);
+        document.getElementById("toggleAvyCanWeather").style.color = '#f1f1f1'; 
+    }
+    toggleAvyCanWeather = !toggleAvyCanWeather; // set the toggleAvyCanWeather variable to oppite of current
+}
+
+// Script that enables and disables viewing of the ACIS Weather Stations
+document.getElementById('toggleACISWeather').onclick = function(e) {
+    // if toggled then remove the cluster layer, else add
+    if (toggleACISWeather) {
+        mymap.removeLayer(ACISWeather);
+        document.getElementById("toggleACISWeather").style.color = '#818181'; 
+    }else{
+        mymap.addLayer(ACISWeather);
+        document.getElementById("toggleACISWeather").style.color = '#f1f1f1'; 
+    }
+    toggleACISWeather = !toggleACISWeather; // set the toggleACISWeather variable to oppite of current
+}
+
+// Script that enables and disables viewing of the Fatal Recreational Accidents
+document.getElementById('toggleFatalityReports').onclick = function(e) {
+    // if toggled then remove the cluster layer, else add
+    if (toggleFatalityReports) {
+        mymap.removeLayer(fatalityReports);
+        document.getElementById("toggleFatalityReports").style.color = '#818181'; 
+    }else{
+        mymap.addLayer(fatalityReports);
+        document.getElementById("toggleFatalityReports").style.color = '#f1f1f1'; 
+    }
+    toggleFatalityReports = !toggleFatalityReports; // set the toggleFatalityReports variable to oppite of current
+}
+
+// Script that enables and disables viewing of MCRs
+document.getElementById('toggleMCRs').onclick = function(e) {
+    // if toggled then remove the cluster layer, else add
+    if (toggleMCRs) {
+        mymap.removeLayer(mountainConditionReports);
+        document.getElementById("toggleMCRs").style.color = '#818181'; 
+    }else{
+        mymap.addLayer(mountainConditionReports);
+        document.getElementById("toggleMCRs").style.color = '#f1f1f1'; 
+    }
+    toggleMCRs = !toggleMCRs; // set the toggleMCRs variable to oppite of current
+}
+
+// Script that enables and disables viewing of Avy Can Avalanche Forecasts 
+document.getElementById('toggleAvyCanForecasts').onclick = function(e) {
+    // if toggled then remove the cluster layer, else add
+    if (toggleAvyCanForecasts) {
+        mymap.removeLayer(avyCanForecastRegions);
+        mymap.removeLayer(avyCanForecasts);
+        document.getElementById("toggleAvyCanForecasts").style.color = '#818181'; 
+    }else{
+        mymap.addLayer(avyCanForecastRegions);
+        mymap.addLayer(avyCanForecasts);
+        document.getElementById("toggleAvyCanForecasts").style.color = '#f1f1f1'; 
+    }
+    toggleAvyCanForecasts = !toggleAvyCanForecasts; // set the toggleAvyCanForecasts variable to oppite of current
+}

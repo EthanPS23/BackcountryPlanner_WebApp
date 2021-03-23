@@ -2,7 +2,7 @@
 
 // Display avy Canada weather stations on the map
 $.getJSON("https://api.avalanche.ca/weather/stations", function(data){
-    var clusters = L.markerClusterGroup();
+    window.avyCanWeather = L.markerClusterGroup();
     var jsonFeatures = [];
     data.forEach(element => {
         var lat = element.latitude;
@@ -21,14 +21,14 @@ $.getJSON("https://api.avalanche.ca/weather/stations", function(data){
 
     var geoJson = { type: 'FeatureCollection', features: jsonFeatures };
 
-    var marks = L.geoJson(geoJson,{
+    L.geoJson(geoJson,{
         pointToLayer: function(feature, latlng) {
             return L.marker(latlng, {icon: avyCanadaWeatherStations});
         },
         onEachFeature: function(feature,layer){
             layer.bindTooltip(feature.properties.name, {sticky: true});
 
-            layer.addTo(clusters);
+            layer.addTo(avyCanWeather);
 
             layer.on('click', function(){
                 window.open("https://www.avalanche.ca/weather/stations/" + feature.properties.stationId);
@@ -36,22 +36,20 @@ $.getJSON("https://api.avalanche.ca/weather/stations", function(data){
         }
     });
 
-    var mixed = {
-        "Avalanche Canada Weather Stations": clusters //cluster of avy Canada weather stations
-    }
+    mymap.addLayer(avyCanWeather);
 
-    mymap.addLayer(clusters);
-    // L.control.layers(null, mixed).addTo(mymap)
+    document.getElementById("toggleAvyCanWeather").style.color = '#f1f1f1';
+    window.toggleAvyCanWeather = true;
 })
 
 // Display ACIS weather stations on the map
 $.getJSON("http://localhost/stationsGEO.json", function(data){
-    var clusters = L.markerClusterGroup();
-    var marks = L.geoJSON(data, {
+    window.ACISWeather = L.markerClusterGroup();
+    L.geoJSON(data, {
         onEachFeature: function (feature,layer){
             layer.bindTooltip(feature.properties.name, {sticky: true});
 
-            layer.addTo(clusters);
+            layer.addTo(ACISWeather);
 
             layer.on('click', function(){
                 window.open(feature.properties.url);
@@ -59,10 +57,8 @@ $.getJSON("http://localhost/stationsGEO.json", function(data){
         }
     });
 
-    var mixed = {
-        "ACIS Weather Stations": clusters //cluster of ACIS weather stations
-    }
+    mymap.addLayer(ACISWeather);
 
-    mymap.addLayer(clusters);
-    // L.control.layers(null, mixed).addTo(mymap);
+    document.getElementById("toggleACISWeather").style.color = '#f1f1f1';
+    window.toggleACISWeather = true;
 });

@@ -31,7 +31,7 @@ var avyCanadaMIN_URL = "https://api.avalanche.ca/min/en/submissions?fromdate=" +
 
 // Display avy Canada MIN reports on the map 
 $.getJSON(avyCanadaMIN_URL, function(dataSubs){
-    var clusters = L.markerClusterGroup();
+    window.minReports = L.markerClusterGroup();
     var jsonFeatures = [];
     dataSubs = JSON.parse(JSON.stringify(dataSubs.items.data));
     dataSubs.forEach(element => {
@@ -51,7 +51,7 @@ $.getJSON(avyCanadaMIN_URL, function(dataSubs){
 
     var geoJson = { type: 'FeatureCollection', features: jsonFeatures };
 
-    var marks = L.geoJson(geoJson,{
+    L.geoJson(geoJson,{
         pointToLayer: function (feature,latlng) {
             // check to see if the MIN is an incident, if it is not then use normal MIN icon, if it is, use the MIN incident icon
             if (feature.properties.observations.incident == 0) {
@@ -63,7 +63,7 @@ $.getJSON(avyCanadaMIN_URL, function(dataSubs){
         onEachFeature: function (feature, layer) {
             layer.bindTooltip(feature.properties.title, {sticky: true});
 
-            layer.addTo(clusters);
+            layer.addTo(minReports);
 
             layer.on('click', function(){
                 window.open("https://www.avalanche.ca/mountain-information-network/submissions/" + feature.properties.id);
@@ -71,17 +71,15 @@ $.getJSON(avyCanadaMIN_URL, function(dataSubs){
         }
     });
 
-    var mixed = { 
-        "MIN Reports": clusters
-    }
+    mymap.addLayer(minReports);
 
-    mymap.addLayer(clusters);
-    L.control.layers(null, mixed).addTo(mymap);
+    document.getElementById("toggleMINs").style.color = '#f1f1f1';
+    window.toggleMINReports = true;
 })
 
 // Display fatality reports
 $.getJSON("https://avalancheca.cdn.prismic.io/api/v2/documents/search?page=1&pageSize=100&q=[[:d%20=%20date.after(my.fatal-accident.dateOfAccident,%20%222020-09-30%22)][:d%20=%20date.before(my.fatal-accident.dateOfAccident,%20%222021-10-01%22)]]&ref=YEefDBAAACAAiSgJ",function(dataFat){
-    var clusters = L.markerClusterGroup();
+    window.fatalityReports = L.markerClusterGroup();
     var jsonFeatures = [];
     dataFat = JSON.parse(JSON.stringify(dataFat.results));
     dataFat.forEach(element =>{
@@ -101,27 +99,29 @@ $.getJSON("https://avalancheca.cdn.prismic.io/api/v2/documents/search?page=1&pag
 
     var geoJson = { type: 'FeatureCollection', features: jsonFeatures };
 
-    var marks = L.geoJson(geoJson,{
+    L.geoJson(geoJson,{
         pointToLayer: function (feature,latlng) {
             return L.marker(latlng, {icon: avyCanadaFatality});
         },
         onEachFeature: function (feature, layer) {
             layer.bindTooltip(feature.properties.data.title, {sticky: true});
 
-            layer.addTo(clusters);
+            layer.addTo(fatalityReports);
 
             layer.on('click', function(){
                 window.open(feature.properties.href);
             });
         }
-    // }).addTo(mymap);
     });
-    mymap.addLayer(clusters);
+    mymap.addLayer(fatalityReports);
+
+    document.getElementById("toggleFatalityReports").style.color = '#f1f1f1';
+    window.toggleFatalityReports = true;
 })
 
 // Display the MCRs from avy Canada
 $.getJSON("https://avalanche.ca/api/mcr/", function(data){
-    var clusters = L.markerClusterGroup();
+    window.mountainConditionReports = L.markerClusterGroup();
     var jsonFeatures = [];
     data.forEach(element => {
         var lat = element.location[1];
@@ -140,20 +140,22 @@ $.getJSON("https://avalanche.ca/api/mcr/", function(data){
 
     var geoJson = { type: 'FeatureCollection', features: jsonFeatures};
 
-    var marks = L.geoJson(geoJson,{
+    L.geoJson(geoJson,{
         pointToLayer: function(feature, latlng) {
             return L.marker(latlng, {icon: avyCanadaMCR});
         },
         onEachFeature: function(feature,layer){
             layer.bindTooltip(feature.properties.title, {sticky: true});
 
-            layer.addTo(clusters);
+            layer.addTo(mountainConditionReports);
 
             layer.on('click', function(){
                 window.open(feature.properties.permalink);
             });
         }
-    // }).addTo(mymap);
     });
-    mymap.addLayer(clusters);
+    mymap.addLayer(mountainConditionReports);
+
+    document.getElementById("toggleMCRs").style.color = '#f1f1f1';
+    window.toggleMCRs = true;
 })

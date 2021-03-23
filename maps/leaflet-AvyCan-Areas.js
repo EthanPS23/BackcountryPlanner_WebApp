@@ -1,6 +1,6 @@
 // This script displays the Avalanche Canada avy areas on the map
 $.getJSON( "https://avalanche.ca/api/forecasts", function(data) {
-    L.geoJson(data,{
+    window.avyCanForecastRegions = L.geoJson(data,{
         style: avyCanadaLayerStyle,
         onEachFeature: function (feature, layer) {
             layer.on('mouseover', function () {
@@ -24,4 +24,7 @@ $.getJSON( "https://avalanche.ca/api/forecasts", function(data) {
             layer.bindTooltip(feature.properties.name, {sticky: true});
         }
     }).addTo(mymap);
+
+    document.getElementById("toggleAvyCanForecasts").style.color = '#f1f1f1';
+    window.toggleAvyCanForecasts = true;
 })

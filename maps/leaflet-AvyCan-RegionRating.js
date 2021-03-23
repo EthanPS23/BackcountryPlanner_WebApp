@@ -21,7 +21,7 @@ $.getJSON("https://avalanche.ca/api/forecasts", function(data) {
 
     var geoJson = { type: 'FeatureCollection', features: jsonFeatures};
 
-    var marks = L.geoJson(geoJson,{
+    L.geoJson(geoJson,{
         pointToLayer: function (feature,latlng) {
             // function needs to be called to create markers as another getJSON will be used. Due to getJSON being asynch
             // it will not be able to return a value. Thus, markers will be added to the map within the next getJSON
@@ -35,6 +35,7 @@ function avyCanadaRegionRating(feature,latlng){
     var ratings;
     var combinedRatings;
     var forecastURL = "https://www.avalanche.ca" + feature.properties.forecastUrl;
+    window.avyCanForecasts = new L.FeatureGroup();
     $.getJSON(forecastURL, function(data){
         combinedRatings = data.iconSet[0].ratings.alp; // obtains the alpine rating
         combinedRatings = combinedRatings + "-" + data.iconSet[0].ratings.tln; // obtains the treeline rating, and combines with alpine rating
@@ -59,7 +60,7 @@ function avyCanadaRegionRating(feature,latlng){
 
                 iconUrl: url
             })
-        }).addTo(mymap);
+        });
         mar.on('click',function(){
             // Check to see if the value contains an externalUrl, if not use default url, if it does use externalUrl
             if (feature.properties.externalUrl == null) {
@@ -69,6 +70,8 @@ function avyCanadaRegionRating(feature,latlng){
             }
             window.open(url);
         })
+        mar.addTo(avyCanForecasts);
+        avyCanForecasts.addTo(mymap);
 
     }).fail(function(data){ // if the getJSON fails then it may be because the forecastURL has a separate address, thus
         // the link svg will be used
@@ -79,7 +82,7 @@ function avyCanadaRegionRating(feature,latlng){
 
                 iconUrl: "https://assets.avalanche.ca/graphics/forecast/misc/link.svg"
             })
-        }).addTo(mymap);
+        })
         mar.on('click',function(){
             // Check to see if the value contains an externalUrl, if not use default url, if it does use externalUrl
             if (feature.properties.externalUrl == null) {
@@ -89,5 +92,7 @@ function avyCanadaRegionRating(feature,latlng){
             }
             window.open(url);
         })
+        mar.addTo(avyCanForecasts);
+        avyCanForecasts.addTo(mymap);
     });
 }
