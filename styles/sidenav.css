@@ -17,10 +17,51 @@
     z-index: 10000;
     top: 0;
     right: 0;
-    background-color: #111;
+    background-color: #7386D5;
+    color: #fff;
     overflow-x: hidden;
-    transition: 0.5s;
+    transition: all 0.5s;
     padding-top: 0px;
+}
+
+.sidenav ul li a{
+    color: #fff;
+    padding: 0px;
+}
+
+.sidenav ul li{
+    color: #fff;
+    padding: 10px;
+}
+
+.sidenav ul.components{
+    padding: 20px 0;
+    border-bottom: 1px solid #47748b;
+}
+
+.sidenav ul span{
+    color: #fff;
+    padding: 10px;
+}
+
+.sidenav ul li .nav_Item {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+.sidenav ul li .nav_Item:hover {
+    cursor: pointer;
+}
+
+.sidenav ul li.active > .nav_Item, .nav_Item[aria-expanded="true"] {
+    color: #fff;
+    background: #6d7fcc;
+}
+
+ul ul .nav_Item {
+    font-size: 0.9em !important;
+    padding-left: 10px !important;
+    background: #6d7fcc;
 }
 
 /* The side navigation item styles*/
@@ -28,10 +69,21 @@
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
-    color: #818181;
+    color: #fff;
     display: block;
-    transition: 0.3s;
+    /* transition: 0.3s; */
 }
+
+/* The side navigation item styles*/
+.sidenav a:hover {
+    /* padding: 8px 8px 8px 32px; */
+    text-decoration: none;
+    /* font-size: 25px; */
+    color: #fff;
+    display: block;
+}
+
+
 
 /* The side navigation item styles*/
 .mapAreas_SideNav {
@@ -40,7 +92,7 @@
     font-size: 25px;
     color: #818181;
     display: block;
-    transition: 0.3s;
+    /* transition: 0.3s; */
 }
 
 /* .sidenav a:hover {
@@ -50,9 +102,10 @@
 .sidenav .closebtn {
     position: absolute;
     top: 0;
-    right: 25px;
+    right: 0px;
     font-size: 36px;
-    margin-left: 50px;
+    margin-right: 0px;
+    margin-top: -15px;
 }
 
 @media screen and (max-height: 450px) {
@@ -77,4 +130,17 @@
     text-align: center;
     opacity:0;
     transition: opacity 1s;
+}
+
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
 }

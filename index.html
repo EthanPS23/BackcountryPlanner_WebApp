@@ -25,6 +25,12 @@
 
         <!-- Used for the GPX plugin for Leaflet -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.1/gpx.min.js"></script>
+
+        <!-- Bootstrap assets -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </head>
 
     <style>
@@ -43,39 +49,42 @@
 
         <span id="openNav" style="font-size:30px;cursor:pointer" onclick="openNav();openMainCanvas()">&#9776;</span>
         <div id="mainCanvas" class="mainOverlay" onclick="closeMainCanvas();closeNav()"></div>
-        <div id="mySidenav" class="sidenav">
+        <div id="mySidenav" class="sidenav" id="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav();closeMainCanvas()">&times;</a>
+            <ul class="list-unstyled components">
+                <span>Map Layers</span>
+                <li class="active">
+                    <a href="#avyCanSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Avalanche Canada</a>
+                    <ul class="collapse list-unstyled" id="avyCanSubMenu">
+                        <li class="nav_Item" id ='toggleAvyCanForecasts'>
+                            <svg height="24" width="24" viewBox="398.5 12.1 358.9 282" fill="black">
+                                <path stroke="white" stroke-width="7.5" d="M646.8 120.4L522.2 100 578 12M515.8 109.7l138.8 23 38.7 60.6L442 226M434.2 237.8l265.5-34.4 57.7 90.7h-359"></path>
+                            </svg>
+                            <span class="nav_Item_Title">Avalanche Canada Forecasts</span>
+                        </li>
+                        <li class="nav_Item" id ='toggleMINs'>
+                            <img width="24" height="24" alt="Mountain Information Network icon" src="https://www.avalanche.ca/static/media/min-pin.6db47641.svg">
+                            <span class="nav_Item_Title">MIN Reports</span>
+                        </li>
+                        
+                        <li class="nav_Item" id ='toggleFatalityReports'>
+                            <img width="24" height="24" alt="Fatal Accdent icon" src="https://www.avalanche.ca/static/media/fatal-accident.692404d6.svg">
+                            <span class="nav_Item_Title">Fatal Recreational Activities</span>
+                        </li>
+                        <li class="nav_Item" id ='toggleMCRs'>
+                            <img width="24" height="24" alt="Mountain Conditions Reports icon" src="https://www.avalanche.ca/static/media/mountain-conditions-report.6aa5980a.svg">
+                            <span class="nav_Item_Title">Mountain Condition Reports</span>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav_Item" id ='toggleWeather'>
+                    <img width="24" height="24" alt="Weather station icon" src="https://www.avalanche.ca/static/media/weather-station.473b0079.svg">
+                    <span class="nav_Item_Title">Weather Stations</span>
+                </li>
+            </ul>
             <div class="mapAreas_SideNav"><span>Map Areas</span></div>
-            <div class="nav_Item" id ='toggleAvyCanForecasts'>
-                <svg height="24" width="24" viewBox="398.5 12.1 358.9 282" fill="none">
-                    <path stroke="white" stroke-width="7.5" d="M646.8 120.4L522.2 100 578 12M515.8 109.7l138.8 23 38.7 60.6L442 226M434.2 237.8l265.5-34.4 57.7 90.7h-359"></path>
-                </svg>
-                <span class="nav_Item_Title">Avalanche Canada Forecasts</span>
-            </div>
-            <div class="nav_Item" id ='toggleMINs'>
-                <img width="24" height="24" alt="Mountain Information Network icon" src="https://www.avalanche.ca/static/media/min-pin.6db47641.svg">
-                <span class="nav_Item_Title">MIN Reports</span>
-            </div>
-            <div class="nav_Item" id ='toggleWeather'>
-                <img width="24" height="24" alt="Weather station icon" src="https://www.avalanche.ca/static/media/weather-station.473b0079.svg">
-                <span class="nav_Item_Title">Weather Stations</span>
-            </div>
-            <div class="nav_Item" id ='toggleFatalityReports'>
-                <img width="24" height="24" alt="Fatal Accdent icon" src="https://www.avalanche.ca/static/media/fatal-accident.692404d6.svg">
-                <span class="nav_Item_Title">Fatal Recreational Activities</span>
-            </div>
-            <div class="nav_Item" id ='toggleMCRs'>
-                <img width="24" height="24" alt="Mountain Conditions Reports icon" src="https://www.avalanche.ca/static/media/mountain-conditions-report.6aa5980a.svg">
-                <span class="nav_Item_Title">Mountain Condition Reports</span>
-            </div>
-
-
-            <a href='#' id ='toggleAvyCanWeather'>Avy Can Weather Stations</a> 
-            <a href='#' id ='toggleACISWeather'>ACIS Weather Stations</a>
-            <a href='#' id ='toggleAvyCanForecasts'>Avalanche Canada Forecasts</a>
-            <a href='#' id ='toggleMINs'>MIN Reports</a>
-            <a href='#' id ='toggleFatalityReports'>Fatality Accident Reports</a>
-            <a href='#' id ='toggleMCRs'>Mountain Condition Reports</a>
+            
+            
             <a href='#' id='delete'>Delete Features</a>
             <a href='#' id='export'>Export Features</a>
         </div>

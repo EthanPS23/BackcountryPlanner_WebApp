@@ -26,7 +26,7 @@ $.getJSON( "https://avalanche.ca/api/forecasts", function(data) {
         filter: areaFilter // filter the data based upon areaFilter
     }).addTo(mymap);
 
-    document.getElementById("toggleAvyCanForecasts").style.color = '#f1f1f1';
+    // document.getElementById("toggleAvyCanForecasts").style.color = '#f1f1f1';
     window.toggleAvyCanForecasts = true;
 })
 

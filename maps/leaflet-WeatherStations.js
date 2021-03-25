@@ -43,7 +43,7 @@ $.getJSON("https://api.avalanche.ca/weather/stations", function(data){
 
     mymap.addLayer(avyCanWeather);
 
-    document.getElementById("toggleWeather").style.color = '#f1f1f1';
+    // document.getElementById("toggleWeather").style.color = '#f1f1f1';
     window.toggleWeather = true;
 })
 

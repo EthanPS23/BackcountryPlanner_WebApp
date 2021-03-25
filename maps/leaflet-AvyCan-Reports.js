@@ -78,7 +78,7 @@ $.getJSON(avyCanadaMIN_URL, function(dataSubs){
 
     mymap.addLayer(minReports);
 
-    document.getElementById("toggleMINs").style.color = '#f1f1f1';
+    // document.getElementById("toggleMINs").style.color = '#f1f1f1';
     window.toggleMINReports = true;
 })
 
@@ -125,7 +125,7 @@ $.getJSON("https://avalancheca.cdn.prismic.io/api/v2/documents/search?page=1&pag
     });
     mymap.addLayer(fatalityReports);
 
-    document.getElementById("toggleFatalityReports").style.color = '#f1f1f1';
+    // document.getElementById("toggleFatalityReports").style.color = '#f1f1f1';
     window.toggleFatalityReports = true;
 })
 
@@ -171,6 +171,6 @@ $.getJSON("https://avalanche.ca/api/mcr/", function(data){
     });
     mymap.addLayer(mountainConditionReports);
 
-    document.getElementById("toggleMCRs").style.color = '#f1f1f1';
+    // document.getElementById("toggleMCRs").style.color = '#f1f1f1';
     window.toggleMCRs = true;
 })
