@@ -7,6 +7,7 @@
         <!-- tell the mobile browser to disable unwanted scaling of the page and it to its actual size-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link rel="stylesheet" href="styles/sidenav.css"/>
+        <link rel="stylesheet" href="styles/mapIcons.css"/>
 
 
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
@@ -40,12 +41,36 @@
 
     <body style="height:100%;">
 
-        <span id="openNav" style="font-size:30px;cursor:pointer" onclick="openNav();openMainCanvas()">&#9776; open</span>
+        <span id="openNav" style="font-size:30px;cursor:pointer" onclick="openNav();openMainCanvas()">&#9776;</span>
         <div id="mainCanvas" class="mainOverlay" onclick="closeMainCanvas();closeNav()"></div>
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav();closeMainCanvas()">&times;</a>
             <div class="mapAreas_SideNav"><span>Map Areas</span></div>
-            <a href='#' id ='toggleAvyCanWeather'>Avy Can Weather Stations</a>
+            <div class="nav_Item" id ='toggleAvyCanForecasts'>
+                <svg height="24" width="24" viewBox="398.5 12.1 358.9 282" fill="none">
+                    <path stroke="white" stroke-width="7.5" d="M646.8 120.4L522.2 100 578 12M515.8 109.7l138.8 23 38.7 60.6L442 226M434.2 237.8l265.5-34.4 57.7 90.7h-359"></path>
+                </svg>
+                <span class="nav_Item_Title">Avalanche Canada Forecasts</span>
+            </div>
+            <div class="nav_Item" id ='toggleMINs'>
+                <img width="24" height="24" alt="Mountain Information Network icon" src="https://www.avalanche.ca/static/media/min-pin.6db47641.svg">
+                <span class="nav_Item_Title">MIN Reports</span>
+            </div>
+            <div class="nav_Item" id ='toggleWeather'>
+                <img width="24" height="24" alt="Weather station icon" src="https://www.avalanche.ca/static/media/weather-station.473b0079.svg">
+                <span class="nav_Item_Title">Weather Stations</span>
+            </div>
+            <div class="nav_Item" id ='toggleFatalityReports'>
+                <img width="24" height="24" alt="Fatal Accdent icon" src="https://www.avalanche.ca/static/media/fatal-accident.692404d6.svg">
+                <span class="nav_Item_Title">Fatal Recreational Activities</span>
+            </div>
+            <div class="nav_Item" id ='toggleMCRs'>
+                <img width="24" height="24" alt="Mountain Conditions Reports icon" src="https://www.avalanche.ca/static/media/mountain-conditions-report.6aa5980a.svg">
+                <span class="nav_Item_Title">Mountain Condition Reports</span>
+            </div>
+
+
+            <a href='#' id ='toggleAvyCanWeather'>Avy Can Weather Stations</a> 
             <a href='#' id ='toggleACISWeather'>ACIS Weather Stations</a>
             <a href='#' id ='toggleAvyCanForecasts'>Avalanche Canada Forecasts</a>
             <a href='#' id ='toggleMINs'>MIN Reports</a>

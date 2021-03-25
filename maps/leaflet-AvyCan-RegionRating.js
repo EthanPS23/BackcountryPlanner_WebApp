@@ -55,8 +55,7 @@ function avyCanadaRegionRating(feature,latlng){
         // adds the marker to the map using the url to get a custom marker symbol for the region
         var mar = L.marker(latlng, {
             icon: L.icon({
-                iconSize:[60,60],
-                iconAnchor: [30,30],
+                iconSize:[50,50],
 
                 iconUrl: url
             })
@@ -77,8 +76,7 @@ function avyCanadaRegionRating(feature,latlng){
         // the link svg will be used
         var mar = L.marker(latlng, {
             icon: L.icon({
-                iconSize:[60,60],
-                iconAnchor: [30,30],
+                iconSize:[50,50],
 
                 iconUrl: "https://assets.avalanche.ca/graphics/forecast/misc/link.svg"
             })

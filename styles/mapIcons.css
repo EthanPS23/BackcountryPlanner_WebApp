@@ -1,0 +1,42 @@
+.weatherStation {
+    width: 24px;
+    height: 24px;
+    background-image: url('https://www.avalanche.ca/static/media/weather-station.473b0079.svg');
+    background-size: 100% 100%;
+    text-align:left;
+    font-weight: 900;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+}
+
+.iconMCR {
+    width: 24px;
+    height: 24px;
+    background-image: url('https://www.avalanche.ca/static/media/mountain-conditions-report.6aa5980a.svg');
+    background-size: 100% 100%;
+    text-align:left;
+    font-weight: 900;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+    color: #5fa9f2;
+}
+
+.iconFatality {
+    width: 24px;
+    height: 24px;
+    background-image: url('https://www.avalanche.ca/static/media/fatal-accident.692404d6.svg');
+    background-size: 100% 100%;
+    text-align:left;
+    font-weight: 900;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+    color: #000;
+}
+
+.iconMIN {
+    width: 24px;
+    height: 24px;
+    background-image: url('https://www.avalanche.ca/static/media/min-pin.6db47641.svg');
+    background-size: 100% 100%;
+    text-align:left;
+    font-weight: 900;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+    color: #5fa9f2;
+}

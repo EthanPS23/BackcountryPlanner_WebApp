@@ -2,7 +2,12 @@
 
 // Display avy Canada weather stations on the map
 $.getJSON("https://api.avalanche.ca/weather/stations", function(data){
-    window.avyCanWeather = L.markerClusterGroup();
+    window.avyCanWeather = L.markerClusterGroup({
+        iconCreateFunction: function(cluster) {
+            var html = '<div class="weatherStation">' + cluster.getChildCount() + '</div>';
+            return L.divIcon({ html: html, className: 'weatherCluster',iconSize: L.point(24,24) });
+        }
+    });
     var jsonFeatures = [];
     data.forEach(element => {
         var lat = element.latitude;
@@ -23,7 +28,7 @@ $.getJSON("https://api.avalanche.ca/weather/stations", function(data){
 
     L.geoJson(geoJson,{
         pointToLayer: function(feature, latlng) {
-            return L.marker(latlng, {icon: avyCanadaWeatherStations});
+            return L.marker(latlng, {icon: weatherStations});
         },
         onEachFeature: function(feature,layer){
             layer.bindTooltip(feature.properties.name, {sticky: true});
@@ -38,14 +43,22 @@ $.getJSON("https://api.avalanche.ca/weather/stations", function(data){
 
     mymap.addLayer(avyCanWeather);
 
-    document.getElementById("toggleAvyCanWeather").style.color = '#f1f1f1';
-    window.toggleAvyCanWeather = true;
+    document.getElementById("toggleWeather").style.color = '#f1f1f1';
+    window.toggleWeather = true;
 })
 
 // Display ACIS weather stations on the map
 $.getJSON("http://localhost/stationsGEO.json", function(data){
-    window.ACISWeather = L.markerClusterGroup();
+    window.ACISWeather = L.markerClusterGroup({
+        iconCreateFunction: function(cluster) {
+            var html = '<div class="weatherStation">' + cluster.getChildCount() + '</div>';
+            return L.divIcon({ html: html, className: 'weatherCluster',iconSize: L.point(24,24) });
+        }
+    });
     L.geoJSON(data, {
+        pointToLayer: function(feature, latlng) {
+            return L.marker(latlng, {icon: weatherStations});
+        },
         onEachFeature: function (feature,layer){
             layer.bindTooltip(feature.properties.name, {sticky: true});
 
@@ -59,6 +72,6 @@ $.getJSON("http://localhost/stationsGEO.json", function(data){
 
     mymap.addLayer(ACISWeather);
 
-    document.getElementById("toggleACISWeather").style.color = '#f1f1f1';
-    window.toggleACISWeather = true;
+    // document.getElementById("toggleACISWeather").style.color = '#f1f1f1';
+    // window.toggleACISWeather = true;
 });

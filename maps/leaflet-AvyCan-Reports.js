@@ -31,7 +31,12 @@ var avyCanadaMIN_URL = "https://api.avalanche.ca/min/en/submissions?fromdate=" +
 
 // Display avy Canada MIN reports on the map 
 $.getJSON(avyCanadaMIN_URL, function(dataSubs){
-    window.minReports = L.markerClusterGroup();
+    window.minReports = L.markerClusterGroup({
+        iconCreateFunction: function(cluster) {
+            var html = '<div class="iconMIN">' + cluster.getChildCount() + '</div>';
+            return L.divIcon({ html: html, className: 'MINCluster',iconSize: L.point(24,24) });
+        }
+    });
     var jsonFeatures = [];
     dataSubs = JSON.parse(JSON.stringify(dataSubs.items.data));
     dataSubs.forEach(element => {
@@ -79,7 +84,12 @@ $.getJSON(avyCanadaMIN_URL, function(dataSubs){
 
 // Display fatality reports
 $.getJSON("https://avalancheca.cdn.prismic.io/api/v2/documents/search?page=1&pageSize=100&q=[[:d%20=%20date.after(my.fatal-accident.dateOfAccident,%20%222020-09-30%22)][:d%20=%20date.before(my.fatal-accident.dateOfAccident,%20%222021-10-01%22)]]&ref=YEefDBAAACAAiSgJ",function(dataFat){
-    window.fatalityReports = L.markerClusterGroup();
+    window.fatalityReports = L.markerClusterGroup({
+        iconCreateFunction: function(cluster) {
+            var html = '<div class="iconFatality">' + cluster.getChildCount() + '</div>';
+            return L.divIcon({ html: html, className: 'fatalityCluster',iconSize: L.point(24,24) });
+        }
+    });
     var jsonFeatures = [];
     dataFat = JSON.parse(JSON.stringify(dataFat.results));
     dataFat.forEach(element =>{
@@ -121,7 +131,12 @@ $.getJSON("https://avalancheca.cdn.prismic.io/api/v2/documents/search?page=1&pag
 
 // Display the MCRs from avy Canada
 $.getJSON("https://avalanche.ca/api/mcr/", function(data){
-    window.mountainConditionReports = L.markerClusterGroup();
+    window.mountainConditionReports = L.markerClusterGroup({
+        iconCreateFunction: function(cluster) {
+            var html = '<div class="iconMCR">' + cluster.getChildCount() + '</div>';
+            return L.divIcon({ html: html, className: 'MCRCluster',iconSize: L.point(24,24) });
+        }
+    });
     var jsonFeatures = [];
     data.forEach(element => {
         var lat = element.location[1];

@@ -6,9 +6,10 @@
     top: 0px;
     right: 10px;
     z-index: 10000;
+    color: white;
 }
 
-/* The side navigation styles */
+/* The side navigation styles for the background*/
 .sidenav {
     height: 100%;
     width: 0;
@@ -70,7 +71,7 @@
     z-index: 9999;
     top: 0;
     left:0;
-    background-color: rgba(0,0,0, 0.9);
+    background-color: rgba(0, 0, 0, 0.9);
     overflow-y: auto;
     overflow-x: hidden;
     text-align: center;

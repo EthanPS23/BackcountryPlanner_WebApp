@@ -33,30 +33,19 @@ document.getElementById('toggleMINs').onclick = function(e) {
     toggleMINReports = !toggleMINReports; // set the toggleMINReports variable to oppite of current
 }
 
-// Script that enables and disables viewing of the Avy Can Weather Stations
-document.getElementById('toggleAvyCanWeather').onclick = function(e) {
+// Script that enables and disables viewing of the weather stations
+document.getElementById('toggleWeather').onclick = function(e) {
     // if toggled then remove the cluster layer, else add
-    if (toggleAvyCanWeather) {
-        mymap.removeLayer(avyCanWeather);
-        document.getElementById("toggleAvyCanWeather").style.color = '#818181'; 
-    }else{
-        mymap.addLayer(avyCanWeather);
-        document.getElementById("toggleAvyCanWeather").style.color = '#f1f1f1'; 
-    }
-    toggleAvyCanWeather = !toggleAvyCanWeather; // set the toggleAvyCanWeather variable to oppite of current
-}
-
-// Script that enables and disables viewing of the ACIS Weather Stations
-document.getElementById('toggleACISWeather').onclick = function(e) {
-    // if toggled then remove the cluster layer, else add
-    if (toggleACISWeather) {
+    if (toggleWeather) {
         mymap.removeLayer(ACISWeather);
-        document.getElementById("toggleACISWeather").style.color = '#818181'; 
+        mymap.removeLayer(avyCanWeather);
+        document.getElementById("toggleWeather").style.color = '#818181'; 
     }else{
         mymap.addLayer(ACISWeather);
-        document.getElementById("toggleACISWeather").style.color = '#f1f1f1'; 
+        mymap.addLayer(avyCanWeather);
+        document.getElementById("toggleWeather").style.color = '#f1f1f1'; 
     }
-    toggleACISWeather = !toggleACISWeather; // set the toggleACISWeather variable to oppite of current
+    toggleWeather = !toggleWeather; // set the toggleACISWeather variable to oppite of current
 }
 
 // Script that enables and disables viewing of the Fatal Recreational Accidents
