@@ -5,18 +5,22 @@ $.getJSON("https://avalanche.ca/api/forecasts", function(data) {
     var jsonFeatures = [];
     data = JSON.parse(JSON.stringify(data.features));
     data.forEach(element =>{
-        var lat = element.properties.centroid[1];
-        var lon = element.properties.centroid[0];
+        // This is used to create a feature list of locations that are of geometry type polygon. This avoids trying to add
+        // ratings for features that are points
+        if (element.geometry.type ==="Polygon") {
+            var lat = element.properties.centroid[1];
+            var lon = element.properties.centroid[0];
 
-        var feature = {
-            type: 'Feature',
-            properties: element.properties,
-            geometry: {
-                type: 'Point',
-                coordinates: [lon,lat]
-            }
-        };
-        jsonFeatures.push(feature);
+            var feature = {
+                type: 'Feature',
+                properties: element.properties,
+                geometry: {
+                    type: 'Point',
+                    coordinates: [lon,lat]
+                }
+            };
+            jsonFeatures.push(feature);
+        }
     });
 
     var geoJson = { type: 'FeatureCollection', features: jsonFeatures};

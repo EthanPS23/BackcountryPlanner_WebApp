@@ -22,9 +22,15 @@ $.getJSON( "https://avalanche.ca/api/forecasts", function(data) {
             );
 
             layer.bindTooltip(feature.properties.name, {sticky: true});
-        }
+        },
+        filter: areaFilter // filter the data based upon areaFilter
     }).addTo(mymap);
 
     document.getElementById("toggleAvyCanForecasts").style.color = '#f1f1f1';
     window.toggleAvyCanForecasts = true;
 })
+
+// Script to determine if a feature is of geometry type polygon to avoid adding areas for points
+function areaFilter(feature) {
+    if(feature.geometry.type === "Polygon") return true;
+}
