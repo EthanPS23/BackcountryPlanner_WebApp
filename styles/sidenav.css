@@ -12,16 +12,25 @@
 /* The side navigation styles for the background*/
 .sidenav {
     height: 100%;
-    width: 0;
+    width: 0%;
     position: absolute;
     z-index: 10000;
     top: 0;
-    right: 0;
+    right: 0px;
     background-color: #7386D5;
     color: #fff;
     overflow-x: hidden;
     transition: all 0.5s;
     padding-top: 0px;
+}
+
+.sidenav .item{
+    font-size: 25px;
+    background: #6d7fcc;
+}
+
+.sidenav .item{
+    cursor: pointer;
 }
 
 .sidenav ul li a{
@@ -35,7 +44,7 @@
 }
 
 .sidenav ul.components{
-    padding: 20px 0;
+    padding: 10px 0;
     border-bottom: 1px solid #47748b;
 }
 
@@ -45,7 +54,7 @@
 }
 
 .sidenav ul li .nav_Item {
-    padding: 10px;
+    padding: 10px 0px 10px 0px;
     font-size: 1.1em;
     display: block;
 }
@@ -58,7 +67,7 @@
     background: #6d7fcc;
 }
 
-ul ul .nav_Item {
+ul ul .nav_Item, #export {
     font-size: 0.9em !important;
     padding-left: 10px !important;
     background: #6d7fcc;
@@ -87,10 +96,10 @@ ul ul .nav_Item {
 
 /* The side navigation item styles*/
 .mapAreas_SideNav {
-    padding: 8px 8px 8px 32px;
+    padding: 0px;
     text-decoration: none;
-    font-size: 25px;
-    color: #818181;
+    font-size: 1.0rem;
+    color: #fff;
     display: block;
     /* transition: 0.3s; */
 }

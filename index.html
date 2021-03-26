@@ -77,16 +77,29 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav_Item" id ='toggleWeather'>
+                <li class="item" id ='toggleWeather'>
                     <img width="24" height="24" alt="Weather station icon" src="https://www.avalanche.ca/static/media/weather-station.473b0079.svg">
                     <span class="nav_Item_Title">Weather Stations</span>
                 </li>
             </ul>
-            <div class="mapAreas_SideNav"><span>Map Areas</span></div>
+            <ul class="list-unstyled components">
+                <div class="mapAreas_SideNav"><span>Map Features</span></div>
+                <li class="active">
+                    <a href="#drawFeaturesMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Features</a>
+                    <ul class="collapse list-unstyled" id="drawFeaturesMenu">
+                        <li class="nav_Item" id="toggleDrawFeatures" style="background-color: #7386D5">
+                            <span class="nav_Item_Title">Draw Features</span>
+                        </li>
+                        <li class="nav_Item" id="delete">
+                            <span class="nav_Item_Title">Delete Features</span>
+                        </li>
+                        <li class="nav_Item">
+                            <a href='#' id='export'>Export Features</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
             
-            
-            <a href='#' id='delete'>Delete Features</a>
-            <a href='#' id='export'>Export Features</a>
         </div>
         <script type='text/javascript' src='overlays/sideNav.js'></script>
 

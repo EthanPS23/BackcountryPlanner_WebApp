@@ -1,7 +1,7 @@
 // FeatureGroup is to store editable layers and allows for drawing on the map
 var drawnItems = new L.FeatureGroup();
 mymap.addLayer(drawnItems);
-var drawControl = new L.Control.Draw({
+window.drawControl = new L.Control.Draw({
     edit: {
         featureGroup: drawnItems
     },
@@ -13,7 +13,6 @@ var drawControl = new L.Control.Draw({
         circlemarker: false
     }
 });
-mymap.addControl(drawControl);
 
 // This section allows for drawn shapes to remain on the map after completion
 mymap.on(L.Draw.Event.CREATED, function (event) {

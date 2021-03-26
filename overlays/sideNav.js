@@ -88,3 +88,17 @@ document.getElementById('toggleAvyCanForecasts').onclick = function(e) {
     }
     toggleAvyCanForecasts = !toggleAvyCanForecasts; // set the toggleAvyCanForecasts variable to oppite of current
 }
+
+// script that enables and disables the drawing feature. When the drawing feature is enabled, the popup feature is disabled
+document.getElementById('toggleDrawFeatures').onclick = function (e) {
+    if (!toggleDrawFeatures) {
+        mymap.addControl(drawControl);
+        mymap.off('click', onMapClick);
+        document.getElementById("toggleDrawFeatures").style.backgroundColor = '#6d7fcc';
+    } else {
+        mymap.removeControl(drawControl);
+        mymap.on('click', onMapClick);
+        document.getElementById("toggleDrawFeatures").style.backgroundColor = '#7386D5';
+    }
+    toggleDrawFeatures = !toggleDrawFeatures;
+}
