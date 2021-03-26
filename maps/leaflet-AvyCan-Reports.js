@@ -82,52 +82,61 @@ $.getJSON(avyCanadaMIN_URL, function(dataSubs){
     window.toggleMINReports = true;
 })
 
-// Display fatality reports
-$.getJSON("https://avalancheca.cdn.prismic.io/api/v2/documents/search?page=1&pageSize=100&q=[[:d%20=%20date.after(my.fatal-accident.dateOfAccident,%20%222020-09-30%22)][:d%20=%20date.before(my.fatal-accident.dateOfAccident,%20%222021-10-01%22)]]&ref=YEefDBAAACAAiSgJ",function(dataFat){
-    window.fatalityReports = L.markerClusterGroup({
-        iconCreateFunction: function(cluster) {
-            var html = '<div class="iconFatality">' + cluster.getChildCount() + '</div>';
-            return L.divIcon({ html: html, className: 'fatalityCluster',iconSize: L.point(24,24) });
-        }
-    });
-    var jsonFeatures = [];
-    dataFat = JSON.parse(JSON.stringify(dataFat.results));
-    dataFat.forEach(element =>{
-        var lat = element.data.location.latitude;
-        var lon = element.data.location.longitude;
+$.getJSON("https://avalancheca.cdn.prismic.io/api/v2",function (apiData) {
+    apiData = JSON.parse(JSON.stringify(apiData.refs));
+    var apiRef = apiData[0].ref;
 
-        var feature = {
-            type: 'Feature',
-            properties: element,
-            geometry: {
-                type: 'Point',
-                coordinates: [lon,lat]
-            }
-        };
-        jsonFeatures.push(feature);
-    });
-
-    var geoJson = { type: 'FeatureCollection', features: jsonFeatures };
-
-    L.geoJson(geoJson,{
-        pointToLayer: function (feature,latlng) {
-            return L.marker(latlng, {icon: avyCanadaFatality});
-        },
-        onEachFeature: function (feature, layer) {
-            layer.bindTooltip(feature.properties.data.title, {sticky: true});
-
-            layer.addTo(fatalityReports);
-
-            layer.on('click', function(){
-                window.open(feature.properties.href);
-            });
-        }
-    });
-    mymap.addLayer(fatalityReports);
-
-    // document.getElementById("toggleFatalityReports").style.color = '#f1f1f1';
-    window.toggleFatalityReports = true;
+    fatalityReports(apiRef)
 })
+
+// Display fatality reports
+function fatalityReports(apiRef){
+    $.getJSON("https://avalancheca.cdn.prismic.io/api/v2/documents/search?page=1&pageSize=100&q=[[:d%20=%20date.after(my.fatal-accident.dateOfAccident,%20%222020-09-30%22)][:d%20=%20date.before(my.fatal-accident.dateOfAccident,%20%222021-10-01%22)]]&ref=" + apiRef,function(dataFat){
+        window.fatalityReports = L.markerClusterGroup({
+            iconCreateFunction: function(cluster) {
+                var html = '<div class="iconFatality">' + cluster.getChildCount() + '</div>';
+                return L.divIcon({ html: html, className: 'fatalityCluster',iconSize: L.point(24,24) });
+            }
+        });
+        var jsonFeatures = [];
+        dataFat = JSON.parse(JSON.stringify(dataFat.results));
+        dataFat.forEach(element =>{
+            var lat = element.data.location.latitude;
+            var lon = element.data.location.longitude;
+    
+            var feature = {
+                type: 'Feature',
+                properties: element,
+                geometry: {
+                    type: 'Point',
+                    coordinates: [lon,lat]
+                }
+            };
+            jsonFeatures.push(feature);
+        });
+    
+        var geoJson = { type: 'FeatureCollection', features: jsonFeatures };
+    
+        L.geoJson(geoJson,{
+            pointToLayer: function (feature,latlng) {
+                return L.marker(latlng, {icon: avyCanadaFatality});
+            },
+            onEachFeature: function (feature, layer) {
+                layer.bindTooltip(feature.properties.data.title, {sticky: true});
+    
+                layer.addTo(fatalityReports);
+    
+                layer.on('click', function(){
+                    window.open(feature.properties.href);
+                });
+            }
+        });
+        mymap.addLayer(fatalityReports);
+    
+        // document.getElementById("toggleFatalityReports").style.color = '#f1f1f1';
+        window.toggleFatalityReports = true;
+    })
+}
 
 // Display the MCRs from avy Canada
 $.getJSON("https://avalanche.ca/api/mcr/", function(data){
