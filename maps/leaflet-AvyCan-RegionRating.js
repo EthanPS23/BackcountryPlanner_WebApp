@@ -41,20 +41,27 @@ function avyCanadaRegionRating(feature,latlng){
     var forecastURL = "https://www.avalanche.ca" + feature.properties.forecastUrl;
     window.avyCanForecasts = new L.FeatureGroup();
     $.getJSON(forecastURL, function(data){
-        combinedRatings = data.iconSet[0].ratings.alp; // obtains the alpine rating
-        combinedRatings = combinedRatings + "-" + data.iconSet[0].ratings.tln; // obtains the treeline rating, and combines with alpine rating
-        combinedRatings = combinedRatings + "-" + data.iconSet[0].ratings.btl; // obtains the below tree line rating, and combines with alpine and treeline rating
-        //console.log(combinedRatings + ", " + forecastURL);
-        ratings = combinedRatings;
+        if (data.iconSet[0].iconType == "RATINGS") {
+            combinedRatings = data.iconSet[0].ratings.alp; // obtains the alpine rating
+            combinedRatings = combinedRatings + "-" + data.iconSet[0].ratings.tln; // obtains the treeline rating, and combines with alpine rating
+            combinedRatings = combinedRatings + "-" + data.iconSet[0].ratings.btl; // obtains the below tree line rating, and combines with alpine and treeline rating
+            //console.log(combinedRatings + ", " + forecastURL);
 
-        var url = "https://assets.avalanche.ca/graphics/forecast/rating/norating-norating-norating.svg";
-        if (ratings != null) {
-            // here the ratings numbers will be replaced with the word ratings, which are then used to get the corresponding svg
-            const str  = ratings;
-            const result = str.replace(new RegExp('0','g'),'norating').replace(new RegExp('1','g'),'low').replace(new RegExp('2','g'),'moderate').replace(new RegExp('3','g'),'considerable').replace(new RegExp('4','g'),'high').replace(new RegExp('5','g'),'extreme');
+            ratings = combinedRatings;
 
-            url =  "https://assets.avalanche.ca/graphics/forecast/rating/" + result + ".svg"; // creates the url containing the forecast rating svg
+            var url = "https://assets.avalanche.ca/graphics/forecast/rating/norating-norating-norating.svg";
+            if (ratings != null) {
+                // here the ratings numbers will be replaced with the word ratings, which are then used to get the corresponding svg
+                const str  = ratings;
+                const result = str.replace(new RegExp('0','g'),'norating').replace(new RegExp('1','g'),'low').replace(new RegExp('2','g'),'moderate').replace(new RegExp('3','g'),'considerable').replace(new RegExp('4','g'),'high').replace(new RegExp('5','g'),'extreme');
+
+                url =  "https://assets.avalanche.ca/graphics/forecast/rating/" + result + ".svg"; // creates the url containing the forecast rating svg
+            }
+        } else if (data.iconSet[0].iconType == "SPRING") {
+            url = "https://assets.avalanche.ca/graphics/forecast/misc/spring-situation.svg";
         }
+        
+        
         
         // adds the marker to the map using the url to get a custom marker symbol for the region
         var mar = L.marker(latlng, {
