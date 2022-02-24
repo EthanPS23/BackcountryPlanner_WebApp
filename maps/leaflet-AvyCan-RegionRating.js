@@ -59,6 +59,8 @@ function avyCanadaRegionRating(feature,latlng){
             }
         } else if (data.iconSet[0].iconType == "SPRING") {
             url = "https://assets.avalanche.ca/graphics/forecast/misc/spring-situation.svg";
+        } else if (data.iconSet[0].iconType == "EARLY_SEASON"){
+            url = "https://assets.avalanche.ca/graphics/forecast/misc/early-season.svg"
         }
         
         
