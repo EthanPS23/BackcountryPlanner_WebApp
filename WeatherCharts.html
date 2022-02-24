@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+</head>
+<body>
+    <!-- <div class="chart-container" style="position: relative; height: 400px; width: 1200px">
+        <canvas id="myChart" width="1200px" height="400px"></canvas>
+    </div> -->
+   b
+    
+    <script>
+        
+        function AvyCanWeatherStation(station){
+            $.getJSON(station, function(datas){
+                datas.reverse(); // data comes in with the newest datetime first, for graphing this needs to be reversed.
+
+                var labelsDateTime = datas.map(function(e){
+                    return " " + e.measurementDateTime.substr(0,16).replace("T"," ") + " ";
+                });
+
+
+                var tempData = GetTemperatureDataSet(datas);
+
+                if (tempData.length > 0) {
+                    var ctxTemperature = document.getElementById('TemperatureChart').getContext('2d');
+
+                    var optionsTemp = ChartOptions("2-Week Temperture Trend","Date Time", "Temperature (°C)");
+                    optionsTemp.scales.yAxes[1] = {
+                        id: 'right',
+                        type: 'linear',
+                        position: 'right',
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Relative Humidity (%)"
+                        },
+                        ticks: {
+                            min: 0,
+                            max: 100,
+                        }
+                    }
+
+                    var TemperatureChart = new Chart(ctxTemperature, {
+                        type: 'line',
+                        data: {
+                            labels: labelsDateTime,
+                            datasets: tempData
+                        },
+                        options: optionsTemp//ChartOptions("2-Week Temperture Trend","Date Time", "Temperature (°C)")
+                    });
+                } else {
+                    var myTempChartElem = document.getElementById('divTempChart');
+                    myTempChartElem.remove();
+                }
+
+                
+
+
+
+                var snowData = GetSnowDataSet(datas);
+
+                // Check to make sure that there is snow data, if there is not, then remove divSnowChart
+                if (snowData.length > 0) {
+                    var ctxSnow = document.getElementById('SnowChart').getContext('2d');
+
+                    var optionsSnow = ChartOptions("2-Week Snow Trend","Date Time","Accumulated Snow (cm)");
+                    optionsSnow.scales.yAxes[1] = {
+                        id: 'right',
+                        type: 'linear',
+                        position: 'right',
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Fresh Snow (cm)"
+                        },
+                    }
+
+                    var SnowChart = new Chart(ctxSnow,{
+                        type: 'bar',
+                        data: {
+                            labels: labelsDateTime,
+                            datasets: snowData
+                        },
+                        options: optionsSnow,
+                    })
+                } else {
+                    var mySnowChartElem = document.getElementById('divSnowChart');
+                    mySnowChartElem.remove();
+                }
+
+
+
+                var windData = GetWindDataSet(datas);
+
+                // Check to make sure that there is wind data, if there is not, then remove divWindChart
+                if (windData.length > 0) {
+                    var ctxWind = document.getElementById('WindChart').getContext('2d');
+
+                    var optionsWind = ChartOptions("2-Week Wind Trend","Date Time","Wind (km/h)")
+                    optionsWind.tooltips.callbacks = {
+                        footer: function(tooltipItem, data){
+                            var dataset = 'Average Wind Direction  ' + datas[tooltipItem[0].index].windDirAvg + '° (' + datas[tooltipItem[0].index].windDirCompass + ")\n" +
+                                'Wind Gust Direction ' + datas[tooltipItem[0].index].windDirGust + '° (' + datas[tooltipItem[0].index].windDirGustCompass + ")";
+                            return dataset;
+                        }
+                    };
+
+                    var WindChart = new Chart(ctxWind, {
+                        type: 'line',
+                        data: {
+                            labels: labelsDateTime,
+                            datasets: windData
+                        },
+                        options: optionsWind,
+                    })
+                } else {
+                    var myWindChartElem = document.getElementById('divWindChart');
+                    myWindChartElem.remove();
+                }
+            });
+        }
+
+
+
+        function ChartOptions(title,xAxisLabel,yAxisLabel){
+            var options = {
+                maintainAspectRatio: true,
+                responsive: true,
+                title:{
+                    display:true,
+                    text: title
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: xAxisLabel
+                        },
+                        ticks:{
+                            autoSkip:true,
+                            maxRotation: 0,
+                            minRotation: 0,
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        id: 'left',
+                        position: 'left',
+                        scaleLabel: {
+                            display: true,
+                            labelString: yAxisLabel
+                        },
+                        type: 'linear',
+                    }]
+                }
+            }
+            return options;
+        }
+
+        function WindDirectionIcon(direction) {
+            if (direction == null) {
+                return null;
+            } else {
+                return "https://spotwx.com/images/charts/" + direction +".png";
+            }
+        }
+
+        function GetWindDataSet(datas){
+
+            var avgWindDirCompassStyle = datas.map(function(e){
+                var windIcon = WindDirectionIcon(e.windDirCompass);
+
+                if (windIcon == null) {
+                    return null;
+                } else {
+                    var compassImage = new Image();
+                    compassImage.src = windIcon;
+                    return compassImage;
+                }
+            });
+
+            var avgWindSpeedData = datas.map(function(e){
+                return e.windSpeedAvg;
+            })
+
+            function avgWindSpeedDataSet() {
+                if(avgWindSpeedData[0] != null || avgWindSpeedData[1] != null){
+                    return {
+                        fill: false,
+                        label: 'Average Wind (km/h)',
+                        data: avgWindSpeedData,
+                        pointStyle: avgWindDirCompassStyle,
+                        backgroundColor: 'rgb(52, 235, 94)',
+                        borderColor: 'rgb(52, 235, 94)',
+                        borderWidth: 1
+                    };
+                }
+                else{
+                    
+                    return null;
+                }
+            }
+            
+            var windSpeedGust = datas.map(function(e){
+                return e.windSpeedGust;
+            })
+            
+            var gustWindDirCompassStyle = datas.map(function(e){
+                var windIcon = WindDirectionIcon(e.windDirGustCompass);
+
+                if (windIcon == null) {
+                    return null;
+                } else {
+                    var compassImage = new Image();
+                    compassImage.src = windIcon;
+                    return compassImage;
+                }
+            });
+
+            function windSpeedGustDataSet() {
+                if(windSpeedGust[0] != null || windSpeedGust[1] != null){
+                    return {
+                        fill: false,
+                        label: 'Wind Gust (km/h)',
+                        data: windSpeedGust,
+                        pointStyle: gustWindDirCompassStyle,
+                        backgroundColor: 'rgb(132, 132, 132)',
+                        borderColor: 'rgb(132, 132, 132)',
+                        borderWidth: 1
+                    };
+                }
+                else{
+                    return null;
+                }
+            }
+
+            function windDataSet(){
+                var data = [];
+
+                var avgWind = avgWindSpeedDataSet();
+                var gustWind = windSpeedGustDataSet();
+
+                if (avgWind != null) {
+                    data.push(avgWind);
+                }
+
+                if (gustWind != null) {
+                    data.push(gustWind);
+                }
+
+                return data;
+            }
+
+            return windDataSet();
+        }
+
+        function GetSnowDataSet(datas){
+            var snowHeightData = datas.map(function(e){
+                return e.snowHeight;
+            })
+
+            function snowHeightDataSet(){
+                if (snowHeightData[0] != null || snowHeightData[1] != null) {
+                    return {
+                        fill: false,
+                        label: 'Accumulated Snow (cm)',
+                        data: snowHeightData,
+                        backgroundColor: 'rgb(59, 210, 247)',
+                        borderColor: 'rgb(59, 210, 247)',
+                        type: 'line',
+                        yAxisID: 'left',
+                        borderWidth: 1
+                    };
+                }
+                else {
+                    return null;
+                }
+            }
+
+            var newSnowData = datas.map(function(e){
+                return e.newSnow;
+            })
+
+            function newSnowDataSet(){
+                if (newSnowData[0] != null || newSnowData[1] != null) {
+                    return {
+                        fill: false,
+                        label: 'New Snow (cm)',
+                        data: newSnowData,
+                        backgroundColor: 'rgb(242, 242, 48)',
+                        borderColor: 'rgb(242, 242, 48)',
+                        yAxisID: 'right',
+                        borderWidth: 1
+                    };
+                }
+                else {
+                    return null;
+                }
+            }
+
+            function snowDataSet(){
+                var datasets = [];
+
+                var snowHeight = snowHeightDataSet();
+                var newSnow = newSnowDataSet()
+                
+                if (snowHeight != null) {
+                    datasets.push(snowHeight);
+                }
+                if (newSnow != null) {
+                    datasets.push(newSnow);
+                }
+
+                return datasets;
+            }
+
+            return snowDataSet();
+        }
+
+        function GetTemperatureDataSet(datas){
+
+            var relHumidityData = datas.map(function(e){
+                return e.relativeHumidity;
+            })
+
+            function relHumidityDataSet() {
+                if (relHumidityData[0] != null || relHumidityData[1] != null) {
+                    return {
+                        fill: false,
+                        label: 'Relative Humidity (%)',
+                        data: relHumidityData,
+                        backgroundColor: 'rgb(132, 132, 132)',
+                        borderColor: 'rgb(132, 132, 132)',
+                        yAxisID: 'right',
+                        borderWidth: 1
+                    };
+                }
+                else {
+                    return null;
+                }
+            };
+
+            var avgAirTempData = datas.map(function(e){
+                return e.airTempAvg;
+            })
+
+            function avgAirTempDataSet() {
+                if (avgAirTempData[0] != null || avgAirTempData[1] != null) {
+                    return {
+                        fill: false,
+                        label: 'Average Temperature (°C)',
+                        data: avgAirTempData,
+                        backgroundColor: 'rgb(242, 242, 48)',
+                        borderColor: 'rgb(242, 242, 48)',
+                        yAxisID: 'left',
+                        borderWidth: 1
+                    };
+                }
+                else {
+                    return null;
+                }
+            };
+
+            var minAirTempData = datas.map(function(e){
+                return e.airTempMin;
+            })
+
+            function minAirTempDataSet() {
+                if (minAirTempData[0] != null || minAirTempData[1] != null) {
+                    return {
+                        fill: false,
+                        label: 'Min Temperature (°C)',
+                        data: minAirTempData,
+                        backgroundColor: 'rgb(66, 170, 255)',
+                        borderColor: 'rgb(66, 170, 255)',
+                        borderWidth: 1
+                    };
+                }
+                else {
+                    return null;
+                }
+            };
+
+            var maxAirTempData = datas.map(function(e){
+                return e.airTempMax;
+            })
+
+            function maxAirDataSet() {
+                if (maxAirTempData[0] != null || maxAirTempData[1] != null) {
+                    return {
+                        fill: false,
+                        label: 'Max Temperature (°C)',
+                        data: maxAirTempData,
+                        backgroundColor: 'rgb(255, 99, 132)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        borderWidth: 1
+                    };
+                }
+                else {
+                    return null;
+                }
+            }
+
+            function tempDataSet(){
+                var dataSets = [];
+
+                var avgTemp = avgAirTempDataSet();
+                var minTemp = minAirTempDataSet();
+                var maxTemp = maxAirDataSet();
+                
+                if (avgTemp != null) {
+                    dataSets.push(avgTemp);
+                }
+                if (minTemp != null) {
+                    dataSets.push(minTemp);
+                }
+                if (maxTemp != null) {
+                    dataSets.push(maxTemp);
+                }
+
+                var relHum = relHumidityDataSet();
+
+                if (relHum != null) {
+                    dataSets.push(relHum);
+                }
+
+                return dataSets;
+            }
+
+            return tempDataSet();
+        }
+
+        var para = new URLSearchParams(window.location.search);
+        var pass = para.get("WeatherStation");
+        if (pass===null) { // Could have this also check the pass against a dictionary of Avy Can weather stations to ensure a correct one is sent.
+            pass = 1;
+        }
+        AvyCanWeatherStation("https://api.avalanche.ca/weather/stations/"+ pass +"/measurements/"); 
+        
+    </script>
+</body>
+</html>
+<html>
+
+</html>

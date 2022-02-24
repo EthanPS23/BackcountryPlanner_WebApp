@@ -36,7 +36,9 @@ $.getJSON("https://api.avalanche.ca/weather/stations", function(data){
             layer.addTo(avyCanWeather);
 
             layer.on('click', function(){
-                window.open("https://www.avalanche.ca/weather/stations/" + feature.properties.stationId);
+                var para = new URLSearchParams();
+                para.append("WeatherStation",feature.properties.stationId)
+                window.open("WeatherCharts.html?" + para.toString());
             });
         }
     });
